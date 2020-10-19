@@ -38,7 +38,6 @@
 
 - belongs_to :user
 - has_one :comment
-- has_one :prefecture
 - has_one :purchases
 
 ## comments テーブル
@@ -52,7 +51,7 @@
 
 - belongs_to :item
 
-## prefectures テーブル
+## shipping_add テーブル
 
 | Column        | Type       | Options                        |
 | ------------- | ---------- | ------------------------------ |
@@ -62,21 +61,21 @@
 | addresses     | string     | null: false                    |
 | building      | string     |                                |
 | phone_number  | string     | null: false                    |
-| item          | references | null: false, foreign_key: true |
+| purchase      | references | null: false, foreign_key: true |
 
 ### Association
 
-- belongs_to :item
+- belongs_to :purchase
 
 ## purchases テーブル
 
-| Column        | Type       | Options                        |
-| ------------- | ---------- | ------------------------------ |
-| purchase_date | date       | null: false                    |
-| item_id       | references | null: false, foreign_key: true |
-| user_id       | references | null: false, foreign_key: true |
+| Column     | Type       | Options                        |
+| ---------- | ---------- | ------------------------------ |
+| item       | references | null: false, foreign_key: true |
+| user       | references | null: false, foreign_key: true |
 
 ### Association
 
 - belongs_to :user
 - belongs_to :item
+- has_one :shipping_add
