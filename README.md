@@ -19,6 +19,7 @@
 
 - has_many :items
 - has_many :purchases
+- has_many :comments
 
 ## items テーブル
 
@@ -46,10 +47,12 @@
 | ------- | ---------- | ------------------------------ |
 | comment | text       | null: false                    |
 | item    | references | null: false, foreign_key: true |
+| user    | references | null: false, foreign_key: true |
 
 ### Association
 
 - belongs_to :item
+- belongs_to :user
 
 ## shipping_add テーブル
 
