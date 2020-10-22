@@ -8,12 +8,13 @@ class User < ApplicationRecord
   VALID_NAME_KANA_REGEX = /\A[ァ-ヶー－]+\z/.freeze # 全角カタカナ
   VALID_PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i.freeze # 英数字混合
 
-  validates :nickname, presence: true
-  validates :last_name, presence: true, format: { with: VALID_NAME_REGEX }
-  validates :first_name, presence: true, format: { with: VALID_NAME_REGEX }
-  validates :last_name_kana, presence: true, format: { with: VALID_NAME_KANA_REGEX }
-  validates :first_name_kana, presence: true, format: { with: VALID_NAME_KANA_REGEX }
-  validates :user_birth_date, presence: true
-
-  validates :password, presence: true, format: { with: VALID_PASSWORD_REGEX }
+  with_options presence: true do
+    validates :nickname
+    validates :last_name, format: { with: VALID_NAME_REGEX }
+    validates :first_name, format: { with: VALID_NAME_REGEX }
+    validates :last_name_kana, format: { with: VALID_NAME_KANA_REGEX }
+    validates :first_name_kana, format: { with: VALID_NAME_KANA_REGEX }
+    validates :user_birth_date
+    validates :password, format: { with: VALID_PASSWORD_REGEX }
+  end
 end
