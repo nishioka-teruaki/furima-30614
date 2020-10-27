@@ -18,19 +18,18 @@ class Item < ApplicationRecord
     image.attached?
   end
 
-  extend ActiveHash::Associations::ActiveRecordExtensions do
-    belongs_to_active_hash :category
-    belongs_to_active_hash :sales_status
-    belongs_to_active_hash :shipping_fee_status
-    belongs_to_active_hash :item_prefecture
-    belongs_to_active_hash :scheduled_delivery
+  extend ActiveHash::Associations::ActiveRecordExtensions
+  belongs_to_active_hash :category
+  belongs_to_active_hash :sales_status
+  belongs_to_active_hash :shipping_fee_status
+  belongs_to_active_hash :item_prefecture
+  belongs_to_active_hash :scheduled_delivery
 
-    with_options numericality: { other_than: 1 } do
-      validates :category_id
-      validates :sales_status_id
-      validates :shipping_fee_status_id
-      validates :item_prefecture_id
-      validates :scheduled_delivery_id
-    end
+  with_options numericality: { other_than: 1 } do
+    validates :category_id
+    validates :sales_status_id
+    validates :shipping_fee_status_id
+    validates :item_prefecture_id
+    validates :scheduled_delivery_id
   end
 end
