@@ -1,6 +1,6 @@
 class PurchasesShippingAdd
   include ActiveModel::Model
-  attr_accessor :item, :user, :postal_code, :prefecture_id, :city, :addresses, :building, :phone_number, :purchase
+  attr_accessor :item_id, :user_id, :postal_code, :prefecture_id, :city, :addresses, :building, :phone_number, :purchase
 
   with_options presence: true do
     validates :postal_code, format: { with: /\A[0-9]{3}-[0-9]{4}\z/ }
@@ -15,7 +15,19 @@ class PurchasesShippingAdd
   validates :prefecture_id, numericality: { other_than: 1 }
 
   def save
-    Purchases.create(item: item, user: user)
-    ShippingAdd.create(postal_code: postal_code, prefecture_id: prefecture_id, city: city, addresses: addresses, building: building, phone_number: phone_number, purchase: purchase)
+    purchases = Purchases.create(
+      item: item, 
+      user: user
+    )
+    ShippingAdd.create(
+      postal_code: postal_code, 
+      prefecture_id: prefecture_id, 
+      city: city, 
+      addresses: addresses, 
+      building: building, 
+      phone_number: phone_number, 
+      purchase: purchase,
+      purchases_id: purchases
+    )
   end
 end
