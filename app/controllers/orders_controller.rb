@@ -9,8 +9,8 @@ class OrdersController < ApplicationController
   # end
 
   def create
-    binding.pry
     @order = PurchasesShippingAdd.new(order_params)
+    # binding.pry
     if @order.valid?
       @order.save
       render 'items/index'

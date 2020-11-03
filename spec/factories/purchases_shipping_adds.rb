@@ -5,7 +5,7 @@ FactoryBot.define do
     city { Gimei.address.city.kanji }
     addresses { "青山1-1-1" }
     building { "柳ビル103" }
-    phone_number { 09012345678  }
+    phone_number { 19012345678 }
 
     association :user
     association :item
