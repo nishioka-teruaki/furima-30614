@@ -70,3 +70,6 @@ gem 'active_hash'
 
 gem 'payjp'
 
+group :production do
+  gem 'rails_12factor'
+end
