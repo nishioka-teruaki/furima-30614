@@ -14,17 +14,17 @@ class PurchasesShippingAdd
 
   def save
     purchases = Purchase.create(
-      item_id: item_id, 
+      item_id: item_id,
       user_id: user_id
     )
     # binding.pry
     ShippingAdd.create(
-      postal_code: postal_code, 
-      prefecture_id: prefecture_id, 
-      city: city, 
-      addresses: addresses, 
-      building: building, 
-      phone_number: phone_number, 
+      postal_code: postal_code,
+      prefecture_id: prefecture_id,
+      city: city,
+      addresses: addresses,
+      building: building,
+      phone_number: phone_number,
       purchase_id: purchases.id
     )
   end

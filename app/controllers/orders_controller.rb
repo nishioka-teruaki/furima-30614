@@ -1,12 +1,13 @@
 class OrdersController < ApplicationController
   def index
-    @shipping = Item.find(params[:item_id])
-    @order = PurchasesShippingAdd.new
+    if user_signed_in?
+      @shipping = Item.find(params[:item_id])
+      redirect_to root_path if current_user.id == @shipping.user_id || !@shipping.purchase.nil?
+      @order = PurchasesShippingAdd.new
+    else
+      redirect_to user_session
+    end
   end
-
-  # def new
-  #   @order = PurchasesShippingAdd.new
-  # end
 
   def create
     @order = PurchasesShippingAdd.new(order_params)
@@ -31,7 +32,7 @@ class OrdersController < ApplicationController
   end
 
   def pay_item
-    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY']
     Payjp::Charge.create(
       amount: @price,
       card: order_params[:token],

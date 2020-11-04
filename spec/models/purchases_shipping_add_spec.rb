@@ -1,79 +1,71 @@
 require 'rails_helper'
 
 RSpec.describe PurchasesShippingAdd, type: :model do
-
   before do
-    @purchases = FactoryBot.build(:purchases_shipping_adds)
+    @user1 = FactoryBot.build(:user)
+    @item = FactoryBot.build(:item, user_id: @user1.id)
+    @user2 = FactoryBot.build(:user)
+    @purchase_shipping_add = FactoryBot.build(:purchases_shipping_add, item_id: @item.id, user_id: @user2.id)
   end
 
   describe '商品出品登録' do
     context 'すべての値が正しく入力されていれば保存できること' do
-      it 'トークン, postal_code, prefecture_id、city、addresses, building, phone_number, purchaseが存在すれば登録できる' do
-        expect(@purchases).to be_valid
+      it 'token, postal_code, prefecture_id、city、addresses, building, phone_number, user_id, item_idが存在すれば登録できる' do
+        expect(@purchase_shipping_add).to be_valid
+      end
+      it 'buildingは空でも保存できること' do
+        @purchase_shipping_add.building = nil
+        expect(@purchase_shipping_add).to be_valid
       end
     end
 
-  #   context '新規登録がうまくいかないとき' do
-  #     it 'imageが空では保存できないこと' do
-  #       @item.image = nil
-  #       @item.valid?
-  #       expect(@item.errors.full_messages).to include("Image can't be blank")
-  #     end
-  #     it 'nameが空では保存できないこと' do
-  #       @item.name = nil
-  #       @item.valid?
-  #       expect(@item.errors.full_messages).to include("Name can't be blank")
-  #     end
-  #     it 'infoが空では保存できないこと' do
-  #       @item.info = nil
-  #       @item.valid?
-  #       expect(@item.errors.full_messages).to include("Info can't be blank")
-  #     end
-  #     it 'category_idが1では保存できないこと' do
-  #       @item.category_id = 1
-  #       @item.valid?
-  #       expect(@item.errors.full_messages).to include('Category must be greater than 1')
-  #     end
-  #     it 'sales_status_idが1では保存できないこと' do
-  #       @item.sales_status_id = 1
-  #       @item.valid?
-  #       expect(@item.errors.full_messages).to include('Sales status must be greater than 1')
-  #     end
-  #     it 'shipping_fee_status_idが1では保存できないこと' do
-  #       @item.shipping_fee_status_id = 1
-  #       @item.valid?
-  #       expect(@item.errors.full_messages).to include('Shipping fee status must be greater than 1')
-  #     end
-  #     it 'item_prefecture_idが1では保存できないこと' do
-  #       @item.item_prefecture_id = 1
-  #       @item.valid?
-  #       expect(@item.errors.full_messages).to include('Item prefecture must be greater than 1')
-  #     end
-  #     it 'scheduled_delivery_idが1では保存できないこと' do
-  #       @item.scheduled_delivery_id = 1
-  #       @item.valid?
-  #       expect(@item.errors.full_messages).to include('Scheduled delivery must be greater than 1')
-  #     end
-  #     it 'priceが空では保存できないこと' do
-  #       @item.price = nil
-  #       @item.valid?
-  #       expect(@item.errors.full_messages).to include("Price can't be blank")
-  #     end
-  #     it 'priceが¥300以下では保存できないこと' do
-  #       @item.price = 299
-  #       @item.valid?
-  #       expect(@item.errors.full_messages).to include('Price is not included in the list')
-  #     end
-  #     it 'priceが¥9,999,999以上では保存できないこと' do
-  #       @item.price = 10_000_000
-  #       @item.valid?
-  #       expect(@item.errors.full_messages).to include('Price is not included in the list')
-  #     end
-  #     it 'priceが半角英数でないと保存できないこと' do
-  #       @item.price = 'あいう'
-  #       @item.valid?
-  #       expect(@item.errors.full_messages).to include('Price is not a number')
-  #     end
+    context '保存がうまくいかないとき' do
+      it 'tokenが空では登録できないこと' do
+        @purchase_shipping_add.token = nil
+        @purchase_shipping_add.valid?
+
+        expect(@purchase_shipping_add.errors.full_messages).to include("Token can't be blank")
+      end
+      it 'postal_codeが空では保存できないこと' do
+        @purchase_shipping_add.postal_code = nil
+        @purchase_shipping_add.valid?
+        expect(@purchase_shipping_add.errors.full_messages).to include("Postal code can't be blank", 'Postal code is invalid')
+      end
+      it 'postal_codeが半角のハイフンを含んだ正しい形式でないと保存できないこと' do
+        @purchase_shipping_add.postal_code = '1234567'
+        @purchase_shipping_add.valid?
+        expect(@purchase_shipping_add.errors.full_messages).to include('Postal code is invalid')
+      end
+      it 'prefecture_idが1では保存できないこと' do
+        @purchase_shipping_add.prefecture_id = 1
+        @purchase_shipping_add.valid?
+        expect(@purchase_shipping_add.errors.full_messages).to include('Prefecture must be other than 1')
+      end
+      it 'cityが空では保存できないこと' do
+        @purchase_shipping_add.city = nil
+        @purchase_shipping_add.valid?
+        expect(@purchase_shipping_add.errors.full_messages).to include("City can't be blank")
+      end
+      it 'addressesが空では保存できないこと' do
+        @purchase_shipping_add.addresses = nil
+        @purchase_shipping_add.valid?
+        expect(@purchase_shipping_add.errors.full_messages).to include("Addresses can't be blank")
+      end
+      it 'phone_numberが空では保存できないこと' do
+        @purchase_shipping_add.phone_number = nil
+        @purchase_shipping_add.valid?
+        expect(@purchase_shipping_add.errors.full_messages).to include("Phone number can't be blank", 'Phone number is invalid')
+      end
+      it 'phone_numberが11桁未満では保存できないこと' do
+        @purchase_shipping_add.phone_number = 1_234_567_890
+        @purchase_shipping_add.valid?
+        expect(@purchase_shipping_add.errors.full_messages).to include('Phone number is invalid')
+      end
+      it 'phone_numberが12桁以上では保存できないこと' do
+        @purchase_shipping_add.phone_number = 123_456_789_012
+        @purchase_shipping_add.valid?
+        expect(@purchase_shipping_add.errors.full_messages).to include('Phone number is invalid')
+      end
     end
   end
 end
