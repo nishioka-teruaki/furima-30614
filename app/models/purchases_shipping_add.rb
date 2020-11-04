@@ -17,7 +17,6 @@ class PurchasesShippingAdd
       item_id: item_id,
       user_id: user_id
     )
-    # binding.pry
     ShippingAdd.create(
       postal_code: postal_code,
       prefecture_id: prefecture_id,

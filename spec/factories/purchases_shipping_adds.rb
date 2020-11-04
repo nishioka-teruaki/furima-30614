@@ -1,8 +1,5 @@
 FactoryBot.define do
   factory :purchases_shipping_add do
-    # item_id       { 1 }
-    # user_id       { 1 }
-    # purchase_id     { 1 }
 
     token         { 'tok_abcdefghijk00000000000000000' }
 
@@ -11,9 +8,8 @@ FactoryBot.define do
     city          { Gimei.address.city.kanji }
     addresses     { '青山1-1-1' }
     building      { '柳ビル103' }
-    phone_number  { 19_012_345_678 }
+    phone_number  { '09012341234' }
 
-    # association :shipping_add
     association :user
     association :item
   end
