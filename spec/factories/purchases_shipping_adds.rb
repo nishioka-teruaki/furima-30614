@@ -1,6 +1,5 @@
 FactoryBot.define do
   factory :purchases_shipping_add do
-
     token         { 'tok_abcdefghijk00000000000000000' }
 
     postal_code   { '111-1111' }
